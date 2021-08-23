@@ -11,22 +11,30 @@ def extract_dna_looking_table(dna: list[str]) -> list[str]:
     all_rows = "#".join(dna)
     traversed_dna = []
     dna_length = len(dna)
-    for index in range(dna_length):
+    diagonal_1, diagonal_2 = "", ""
+    for i in range(dna_length):
         row = ""
-        for element in dna:
+        for j, element in enumerate(dna):
             if len(element) != dna_length:
                 raise InvalidDna
-            if element[index] not in DNA_BASE:
+            if element[i] not in DNA_BASE:
                 raise InvalidDna
-            row += element[index]
+            row += element[i]
+            if i == j:
+                diagonal_1 += element[i]
         traversed_dna.append(row)
+
+    for i in range(len(traversed_dna)):
+        for j, element in enumerate(traversed_dna[::-1]):
+            if i == j:
+                diagonal_2 += element[i]
+
     all_columns = "#".join(traversed_dna)
 
     dna_looking_table = [
-        all_rows, all_columns
+        all_rows, all_columns, diagonal_1, diagonal_2
     ]
-    for element in dna_looking_table:
-        print(element)
+
     return dna_looking_table
 
 
